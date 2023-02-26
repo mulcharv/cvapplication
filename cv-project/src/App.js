@@ -74,7 +74,7 @@ class App extends Component {
   }
 
   handleGenChange(e) {
-    let newState = {...this.state.generalin};
+    let newState = {...this.state.general.generalin};
     newState[e.target.id] = e.target.value;
     this.setState({
       general: {
@@ -85,6 +85,7 @@ class App extends Component {
 
   addEducation(e) {
     let eduinputs = this.state.education.educationin;
+  
 
     if (typeof eduinputs !== "object") {
       let eduin = [{
@@ -261,9 +262,10 @@ class App extends Component {
   onSubmitGen(e) {
     e.preventDefault();
     const generalstorecopy = [];
-    generalstorecopy.push(this.state.generalin);
+    let genincopy = {...this.state.general.generalin}
+    generalstorecopy.push(genincopy);
     this.setState({
-      storedforms: {
+      general: {
       generalstore: generalstorecopy
       }
     })
