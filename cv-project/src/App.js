@@ -38,11 +38,27 @@ class App extends Component {
       generalstore: '',
     },
       education: {
-        educationin: '',
+        educationin: [{
+          id: uniqid(),
+          school: '',
+          degree: '',
+          edustart: '',
+          eduend: '',
+          edulocation: '',
+          edudescription: '',
+        }],
         educationstore: '',
       },
       work: {
-        workin: '',
+        workin: [{
+          id: uniqid(),
+          company: '',
+          role: '',
+          workstart: '',
+          workend: '',
+          worklocation: '',
+          workdescription: '',
+        }],
         workstore: ''
       }
     }
@@ -84,27 +100,9 @@ class App extends Component {
   }
 
   addEducation(e) {
-    let eduinputs = this.state.education.educationin;
-  
+    let eduinputs = this.state.education.educationin;  
 
-    if (typeof eduinputs !== "object") {
-      let eduin = [{
-        id: uniqid(),
-        school: '',
-        degree: '',
-        edustart: '',
-        eduend: '',
-        edulocation: '',
-        edudescription: '',
-      }]
-      this.setState({
-        education: {
-          educationin: eduin
-        }
-      })
-    }
-
-    if (typeof eduinputs == "object") {
+    if (typeof eduinputs === "object") {
       let eduincopy = [...this.state.education.educationin];
       let neweduin = {
         id: uniqid(),
@@ -123,6 +121,7 @@ class App extends Component {
         }
       })
     }
+    console.log(this.state.education.educationin)
   }
   
   handleEduFieldChange(edufieldclasses, value) {
@@ -142,23 +141,12 @@ class App extends Component {
         })
       }
 
-      onSubmitEdu(e) {
-        let educationstorecopy;
-        if (typeof this.state.education.educationstore !== "object") {
-          educationstorecopy = [];
-        }
-        if (typeof this.state.education.educationstore === "object") {
-          educationstorecopy = [...this.state.education.educationstore]
-        }
-        if (typeof this.state.education.educationin === "object") {
-          let eduinputs = [...this.state.education.educationin];
-          for (const input of eduinputs) {
-            educationstorecopy.push(input);
-          }
-          }
+      onSubmitEdu(e) {  
+          let eduinputscopy = [...this.state.education.educationin];
         this.setState({
           education: {
-            educationstore: educationstorecopy
+            educationin: eduinputscopy,
+            educationstore: eduinputscopy
           }
 
         })
@@ -168,29 +156,12 @@ class App extends Component {
         edushow: edustat
       })
 
-        }
+      }
         
         
 
   addWork(e) {
     let workinputs = this.state.work.workin;
-
-    if (typeof workinputs !== "object") {
-      let workinnew = [{
-        id: uniqid(),
-        company: '',
-        role: '',
-        workstart: '',
-        workend: '',
-        worklocation: '',
-        workdescription: '',
-      }]
-      this.setState({
-        work: {
-          workin: workinnew
-        }
-      })
-    }
 
     if (typeof workinputs == "object") {
       let workincopy = [...this.state.work.workin];
@@ -232,22 +203,11 @@ class App extends Component {
       }
 
       onSubmitWork(e) {
-        let workstorecopy;
-        if (typeof this.state.work.workstore !== "object") {
-          workstorecopy = [];
-        }
-        if (typeof this.state.work.workstore === "object") {
-          workstorecopy = [...this.state.work.workstore]
-        }
-        if (typeof this.state.work.workin === "object") {
-          let workinputs = [...this.state.work.workin];
-          for (const input of workinputs) {
-            workstorecopy.push(input);
-          }
-          }
+        let workinputscopy = [...this.state.work.workin];
         this.setState({
           work: {
-            workstore: workstorecopy
+            workin: workinputscopy,
+            workstore: workinputscopy
           }
 
         })
@@ -256,7 +216,6 @@ class App extends Component {
       this.setState({
         workshow: workstat
       })
-
         }
 
   onSubmitGen(e) {
@@ -266,62 +225,82 @@ class App extends Component {
     generalstorecopy.push(genincopy);
     this.setState({
       general: {
+      generalin: genincopy,
       generalstore: generalstorecopy
       }
     })
+
+    let genstat = !this.state.generalshow
+      this.setState({
+        generalshow: genstat
+      })
   }
 
 
   render() {
     const { general, education, work } = this.state;
-    let eduforms;
-    if (typeof education.educationin === "object") {
-    eduforms = education.educationin.map(eduform => (
-      <EducationForms
-        onChange={this.handleEduFieldChange}
-        value={education.educationin[eduform]}
-      />
-    ))
-    };
-
-    let workforms;
-    if (typeof work.workin === "object") {
-    workforms = work.workin.map(workform => (
-      <WorkForms
-        onChange={this.handleWorkFieldChange}
-        value={work.workin[workform]}
-      />
-    ))
-    };
 
     return (
     <div className='cvapp'>
+      <div id='apptitle'>CV Application</div>
       <div className='formscontainer'>
         <form id="genform" onSubmit={this.onSubmitGen} className={this.state.generalshow ? 'active' : 'hidden'}>
           <div id="gentitle">General Information</div>
+          <div id='genformfirst'>
           <label htmlFor='first'>First Name</label>
           <input type="text" id="first" value={general.generalin.first} onChange={this.handleGenChange}></input>
           <label htmlFor='last'>Last Name</label>
           <input type="text" id="last" value={general.generalin.last} onChange={this.handleGenChange}></input>
+          </div>
+          <div id='genformsecond'>
           <label htmlFor='address'>Address</label>
           <input type="text" id="address" value={general.generalin.address} onChange={this.handleGenChange}></input>
           <label htmlFor='phone'>Phone</label>
           <input type="text" id="phone" value={general.generalin.phone} onChange={this.handleGenChange}></input>
+          </div>
+          <div id='genformthird'>
           <label htmlFor='email'>Email</label>
           <input type="text" id="email" value={general.generalin.email} onChange={this.handleGenChange}></input>
           <label htmlFor='role'>Role</label>
           <input type="text" id="role" value={general.generalin.role} onChange={this.handleGenChange}></input>
+          </div>
+          <div id='genformfourth'>
           <label htmlFor='description'>Profile Description</label>
           <input type="textarea" id="description" value={general.generalin.description} onChange={this.handleGenChange}></input>
-          <button type="submit" value="Submit">Submit</button>
+          </div>
+          <button id="genformbtn" type="submit" value="Submit">Submit</button>
         </form>
         <div id="eduformcontainer" className={this.state.edushow ? 'active' : 'hidden'}>
-          {eduforms}
+          <div id='eduformheader'>Education Information</div>
+          <ul>
+            {education.educationin.map((eduin) =>  {
+                return (
+                <li key={eduin.id}>
+                <EducationForms
+                onChange={this.handleEduFieldChange}
+                value={eduin}
+                />
+                </li>
+                )
+            })}
+          </ul>
           <button id="eduadd" onClick={this.addEducation}>Add Education</button>
           <button id="edusubmit" type="button" onClick={this.onSubmitEdu}>Submit</button>
         </div>
         <div id="workformcontainer" className={this.state.workshow ? 'active' : 'hidden'}>
-          {workforms}
+          <div id='workformformheader'>Work Information</div>
+          <ul>
+            {work.workin.map((woin) => {
+              return (
+                <li key={woin.id}>
+                  <WorkForms
+                  onChange={this.handleWorkFieldChange}
+                  value={woin}
+                  />
+                </li>
+              )
+            })}
+          </ul>
           <button id="workadd" onClick={this.addWork}>Add Work</button>
           <button id="worksubmit" type="button" onClick={this.onSubmitWork}>Submit</button>
         </div>

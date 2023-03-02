@@ -17,7 +17,7 @@ class EducationForms extends Component {
 
     if (this.props.value) {
       return(
-    <div id={this.props.value.id} className="eduform">
+    <div className="eduform">
         <div className="schoolcont">
             <label>School Name
                 <input className={`${this.props.value.id} school`} type="text" onChange={this.handleEduChange} value={this.props.value.school}></input>
@@ -30,22 +30,22 @@ class EducationForms extends Component {
         </div>
         <div className="edustartcont">
             <label>Date Started
-                <input class={`${this.props.value.id} edustart`} type="text" onChange={this.handleEduChange} value={this.props.value.edustart}></input>
+                <input className={`${this.props.value.id} edustart`} type="text" onChange={this.handleEduChange} value={this.props.value.edustart}></input>
             </label>
         </div>
         <div className="eduendcont">
             <label>Date Ended
-                <input class={`${this.props.value.id} eduend`} type="text" onChange={this.handleEduChange} value={this.props.value.eduend}></input>
+                <input className={`${this.props.value.id} eduend`} type="text" onChange={this.handleEduChange} value={this.props.value.eduend}></input>
             </label>
         </div>
         <div className="edulocationcont">
             <label>Location
-                <input class={`${this.props.value.id} edulocation`} type="text" onChange={this.handleEduChange} value={this.props.value.edulocation}></input>
+                <input className={`${this.props.value.id} edulocation`} type="text" onChange={this.handleEduChange} value={this.props.value.edulocation}></input>
             </label>
         </div>
         <div className="edudescriptioncont">
             <label>Description
-                <input class={`${this.props.value.id} edudescription`} type="text" onChange={this.handleEduChange} value={this.props.value.edudescription}></input>
+                <input className={`${this.props.value.id} edudescription`} type="text" onChange={this.handleEduChange} value={this.props.value.edudescription}></input>
             </label>
         </div>
     </div>)

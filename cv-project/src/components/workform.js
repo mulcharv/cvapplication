@@ -17,7 +17,7 @@ class WorkForms extends Component {
 
         if (this.props.value) {
             return(
-                <div id={this.props.value.id} className="workform">
+        <div className="workform">
         <div className="companycont">
             <label>Company
                 <input className={`${this.props.value.id} company`} type="text" onChange={this.handleWorkChange} value={this.props.value.company}></input>
@@ -30,22 +30,22 @@ class WorkForms extends Component {
         </div>
         <div className="workstartcont">
             <label>Date Started
-                <input class={`${this.props.value.id} workstart`} type="text" onChange={this.handleWorkChange} value={this.props.value.workstart}></input>
+                <input className={`${this.props.value.id} workstart`} type="text" onChange={this.handleWorkChange} value={this.props.value.workstart}></input>
             </label>
         </div>
         <div className="workendcont">
             <label>Date Ended
-                <input class={`${this.props.value.id} workend`} type="text" onChange={this.handleWorkChange} value={this.props.value.workend}></input>
+                <input className={`${this.props.value.id} workend`} type="text" onChange={this.handleWorkChange} value={this.props.value.workend}></input>
             </label>
         </div>
         <div className="worklocationcont">
             <label>Location
-                <input class={`${this.props.value.id} worklocation`} type="text" onChange={this.handleWorkChange} value={this.props.value.worklocation}></input>
+                <input className={`${this.props.value.id} worklocation`} type="text" onChange={this.handleWorkChange} value={this.props.value.worklocation}></input>
             </label>
         </div>
         <div className="workdescriptioncont">
             <label>Description
-                <input class={`${this.props.value.id} workdescription`} type="text" onChange={this.handleWorkChange} value={this.props.value.workdescription}></input>
+                <input className={`${this.props.value.id} workdescription`} type="text" onChange={this.handleWorkChange} value={this.props.value.workdescription}></input>
             </label>
         </div>
     </div>
