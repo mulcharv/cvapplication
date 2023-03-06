@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import General from "./components/cvgeneral";
 import EducationForms from "./components/educationform";
 import WorkForms from "./components/workform";
@@ -8,102 +8,68 @@ import Work from "./components/cvwork";
 import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.editClick = this.editClick.bind(this);
-    this.addEducation = this.addEducation.bind(this);
-    this.addWork = this.addWork.bind(this);
-    this.handleGenChange = this.handleGenChange.bind(this);
-    this.handleEduFieldChange = this.handleEduFieldChange.bind(this);
-    this.handleWorkFieldChange = this.handleWorkFieldChange.bind(this);
-    this.onSubmitGen = this.onSubmitGen.bind(this);
-    this.onSubmitEdu = this.onSubmitEdu.bind(this);
-    this.onSubmitWork = this.onSubmitWork.bind(this);
+function App () {
+  
+  const [generalshow, setGeneralShow] = useState(false);
+  const [edushow, setEduShow] = useState(false);
+  const [workshow, setWorkShow] = useState(false);
+  const [general, setGeneral] = useState({generalin: {first: '', last: '', address: '', phone: '', email: '', role: '', description: '',}, generalstore: ''});
+  const [education, setEducation] = useState({
+    educationin: [{
+    id: uniqid(),
+    school: '',
+    degree: '',
+    edustart: '',
+    eduend: '',
+    edulocation: '',
+    edudescription: '',
+    }],
+    educationstore: ''});
+  const [work, setWork] = useState({
+    workin: [{
+    id: uniqid(),
+    company: '',
+    role: '',
+    workstart: '',
+    workend: '',
+    worklocation: '',
+    workdescription: '',
+  }],
+  workstore: ''});
 
-    this.state = {
-      generalshow: false,
-      edushow: false,
-      workshow: false,
-      general: {
-      generalin: {
-        first: '',
-        last: '',
-        address: '',
-        phone: '',
-        email: '',
-        role: '',
-        description: '',
-      },
-      generalstore: '',
-    },
-      education: {
-        educationin: [{
-          id: uniqid(),
-          school: '',
-          degree: '',
-          edustart: '',
-          eduend: '',
-          edulocation: '',
-          edudescription: '',
-        }],
-        educationstore: '',
-      },
-      work: {
-        workin: [{
-          id: uniqid(),
-          company: '',
-          role: '',
-          workstart: '',
-          workend: '',
-          worklocation: '',
-          workdescription: '',
-        }],
-        workstore: ''
+    function EditClick(e) {
+      useEffect(() => {
+      let buttontype = e.target.id;
+      if (buttontype === "editgeneral") {
+        let genstat = !generalshow;
+        setGeneralShow(genstat)
       }
+      if (buttontype === "editeduc") {
+        let edustat = !edushow
+        setEduShow(edustat)
+      }
+      if (buttontype === "editwork") {
+        let workstat = !workshow
+        setWorkShow(workstat)
+      }
+    })
     }
-  }
 
-  editClick(e) {
-    let buttontype = e.target.id;
-    if (buttontype === "editgeneral") {
-      let genstat = !this.state.generalshow
-      console.log(genstat);
-      this.setState({
-        generalshow: genstat
-      })
-    }
-    if (buttontype === "editeduc") {
-      let edustat = !this.state.edushow
-      console.log(edustat);
-      this.setState({
-        edushow: edustat
-      })
-    }
-    if (buttontype === "editwork") {
-      let workstat = !this.state.workshow
-      console.log(workstat);
-      this.setState({
-        workshow: workstat
-      })
-    }
-  }
-
-  handleGenChange(e) {
-    let newState = {...this.state.general.generalin};
+  function HandleGenChange(e) {
+    useEffect(() => {
+    let newState = {...general.generalin};
     newState[e.target.id] = e.target.value;
-    this.setState({
-      general: {
-        generalin: newState
-      }
-    });
+    setGeneral({generalin: newState})
+  })
   }
 
-  addEducation(e) {
-    let eduinputs = this.state.education.educationin;  
+  function AddEducation(e) {
+    useEffect(() => {
+
+    let eduinputs = education.educationin;  
 
     if (typeof eduinputs === "object") {
-      let eduincopy = [...this.state.education.educationin];
+      let eduincopy = [...education.educationin];
       let neweduin = {
         id: uniqid(),
         school: '',
@@ -115,18 +81,15 @@ class App extends Component {
       };
       eduincopy.push(neweduin);
 
-      this.setState({
-        education: {
-          educationin: eduincopy
-        }
-      })
+      setEducation({educationin: eduincopy})
     }
-    console.log(this.state.education.educationin)
+  })
   }
   
-  handleEduFieldChange(edufieldclasses, value) {
+  function HandleEduFieldChange(edufieldclasses, value) {
+    useEffect(() => {
     let educlasscopy = Array.from(edufieldclasses)
-    let eduincopy = [...this.state.education.educationin]
+    let eduincopy = [...education.educationin]
     for (const eduentry of eduincopy) {
       if (educlasscopy.includes(eduentry.id)) {
         let edufield = educlasscopy.filter(item => item !== eduentry.id);
@@ -134,37 +97,33 @@ class App extends Component {
         eduentry[edutype] = value;
       }
     }   
-        this.setState({
-          education: {
+        setEducation({
             educationin: eduincopy
-          } 
         })
+      })
       }
 
-      onSubmitEdu(e) {  
-          let eduinputscopy = [...this.state.education.educationin];
-        this.setState({
-          education: {
+      function OnSubmitEdu(e) {  
+          useEffect(() => {
+          let eduinputscopy = [...education.educationin];
+        setEducation({
             educationin: eduinputscopy,
             educationstore: eduinputscopy
-          }
-
         })
 
-        let edustat = !this.state.edushow
-      this.setState({
-        edushow: edustat
-      })
-
+        let edustat = !edushow
+        setEduShow(edustat)
+    })
       }
         
         
 
-  addWork(e) {
-    let workinputs = this.state.work.workin;
+  function AddWork(e) {
+    useEffect(() => {
+    let workinputs = work.workin;
 
     if (typeof workinputs == "object") {
-      let workincopy = [...this.state.work.workin];
+      let workincopy = [...work.workin];
       let newworkin = {
         id: uniqid(),
         company: '',
@@ -176,18 +135,16 @@ class App extends Component {
       };
       workincopy.push(newworkin);
 
-      this.setState({
-        work: {
+      setWork({
           workin: workincopy
-        }
       })
     }
-
+  })
   }
 
-  handleWorkFieldChange(workfieldclasses, value) {
+  function handleWorkFieldChange(workfieldclasses, value) {
     let workclasscopy = Array.from(workfieldclasses)
-    let workincopy = [...this.state.work.workin]
+    let workincopy = [...work.workin]
     for (const workentry of workincopy) {
       if (workclasscopy.includes(workentry.id)) {
         let workfield = workclasscopy.filter(item => item !== workentry.id);
@@ -195,30 +152,26 @@ class App extends Component {
         workentry[worktype] = value;
       }
     }   
-        this.setState({
-          work: {
+        setWork({
             workin: workincopy
-          } 
         })
       }
 
-      onSubmitWork(e) {
-        let workinputscopy = [...this.state.work.workin];
-        this.setState({
-          work: {
+    function OnSubmitWork(e) {
+      useEffect(() => {
+        let workinputscopy = [...work.workin];
+        setWork({
             workin: workinputscopy,
             workstore: workinputscopy
-          }
-
         })
 
         let workstat = !this.state.workshow
-      this.setState({
-        workshow: workstat
-      })
-        }
+      setWorkShow(workstat)
+    })
+    }
 
-  onSubmitGen(e) {
+  function OnSubmitGen(e) {
+    useEffect(() => {
     e.preventDefault();
     const generalstorecopy = [];
     let genincopy = {...this.state.general.generalin}
@@ -234,39 +187,37 @@ class App extends Component {
       this.setState({
         generalshow: genstat
       })
+    })
   }
 
-
-  render() {
-    const { general, education, work } = this.state;
 
     return (
     <div className='cvapp'>
       <div id='apptitle'>CV Application</div>
       <div className='formscontainer'>
-        <form id="genform" onSubmit={this.onSubmitGen} className={this.state.generalshow ? 'active' : 'hidden'}>
+        <form id="genform" onSubmit={OnSubmitGen} className={this.state.generalshow ? 'active' : 'hidden'}>
           <div id="gentitle">General Information</div>
           <div id='genformfirst'>
           <label htmlFor='first'>First Name</label>
-          <input type="text" id="first" value={general.generalin.first} onChange={this.handleGenChange}></input>
+          <input type="text" id="first" value={general.generalin.first} onChange={HandleGenChange}></input>
           <label htmlFor='last'>Last Name</label>
-          <input type="text" id="last" value={general.generalin.last} onChange={this.handleGenChange}></input>
+          <input type="text" id="last" value={general.generalin.last} onChange={HandleGenChange}></input>
           </div>
           <div id='genformsecond'>
           <label htmlFor='address'>Address</label>
-          <input type="text" id="address" value={general.generalin.address} onChange={this.handleGenChange}></input>
+          <input type="text" id="address" value={general.generalin.address} onChange={HandleGenChange}></input>
           <label htmlFor='phone'>Phone</label>
-          <input type="text" id="phone" value={general.generalin.phone} onChange={this.handleGenChange}></input>
+          <input type="text" id="phone" value={general.generalin.phone} onChange={HandleGenChange}></input>
           </div>
           <div id='genformthird'>
           <label htmlFor='email'>Email</label>
-          <input type="text" id="email" value={general.generalin.email} onChange={this.handleGenChange}></input>
+          <input type="text" id="email" value={general.generalin.email} onChange={HandleGenChange}></input>
           <label htmlFor='role'>Role</label>
-          <input type="text" id="role" value={general.generalin.role} onChange={this.handleGenChange}></input>
+          <input type="text" id="role" value={general.generalin.role} onChange={HandleGenChange}></input>
           </div>
           <div id='genformfourth'>
           <label htmlFor='description'>Profile Description</label>
-          <input type="textarea" id="description" value={general.generalin.description} onChange={this.handleGenChange}></input>
+          <input type="textarea" id="description" value={general.generalin.description} onChange={HandleGenChange}></input>
           </div>
           <button id="genformbtn" type="submit" value="Submit">Submit</button>
         </form>
@@ -277,15 +228,15 @@ class App extends Component {
                 return (
                 <li key={eduin.id}>
                 <EducationForms
-                onChange={this.handleEduFieldChange}
+                onChange={HandleEduFieldChange}
                 value={eduin}
                 />
                 </li>
                 )
             })}
           </ul>
-          <button id="eduadd" onClick={this.addEducation}>Add Education</button>
-          <button id="edusubmit" type="button" onClick={this.onSubmitEdu}>Submit</button>
+          <button id="eduadd" onClick={AddEducation}>Add Education</button>
+          <button id="edusubmit" type="button" onClick={OnSubmitEdu}>Submit</button>
         </div>
         <div id="workformcontainer" className={this.state.workshow ? 'active' : 'hidden'}>
           <div id='workformformheader'>Work Information</div>
@@ -294,21 +245,21 @@ class App extends Component {
               return (
                 <li key={woin.id}>
                   <WorkForms
-                  onChange={this.handleWorkFieldChange}
+                  onChange={handleWorkFieldChange}
                   value={woin}
                   />
                 </li>
               )
             })}
           </ul>
-          <button id="workadd" onClick={this.addWork}>Add Work</button>
-          <button id="worksubmit" type="button" onClick={this.onSubmitWork}>Submit</button>
+          <button id="workadd" onClick={AddWork}>Add Work</button>
+          <button id="worksubmit" type="button" onClick={OnSubmitWork}>Submit</button>
         </div>
       </div>
       <div className='editcontainer'>
-        <button onClick={this.editClick} className='editbtn' id="editgeneral">Edit Info</button>
-        <button onClick={this.editClick} className='editbtn' id="editeduc">Edit Education</button>
-        <button onClick={this.editClick} className='editbtn' id="editwork">Edit Work</button>
+        <button onClick={EditClick} className='editbtn' id="editgeneral">Edit Info</button>
+        <button onClick={EditClick} className='editbtn' id="editeduc">Edit Education</button>
+        <button onClick={EditClick} className='editbtn' id="editwork">Edit Work</button>
       </div>
       <div id='resume'>
       <General generalstore={general.generalstore} />
@@ -317,8 +268,6 @@ class App extends Component {
       </div>
     </div>
     )
-  }
-
 }
 
 export default App;
