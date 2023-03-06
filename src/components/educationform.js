@@ -10,7 +10,7 @@ function EducationForms (props) {
     }
 
 
-    if (this.props.value) {
+    if (props.value) {
       return(
     <div className="eduform">
         <div className="schoolcont">

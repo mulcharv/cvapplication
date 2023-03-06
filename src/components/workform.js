@@ -8,7 +8,7 @@ function WorkForms (props) {
         props.onChange(workclasses, text);
     }
 
-        if (this.props.value) {
+        if (props.value) {
             return(
         <div className="workform">
         <div className="companycont">

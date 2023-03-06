@@ -38,7 +38,6 @@ function App () {
   workstore: ''});
 
     function EditClick(e) {
-      useEffect(() => {
       let buttontype = e.target.id;
       if (buttontype === "editgeneral") {
         let genstat = !generalshow;
@@ -52,19 +51,15 @@ function App () {
         let workstat = !workshow
         setWorkShow(workstat)
       }
-    })
     }
 
   function HandleGenChange(e) {
-    useEffect(() => {
     let newState = {...general.generalin};
     newState[e.target.id] = e.target.value;
     setGeneral({generalin: newState})
-  })
   }
 
   function AddEducation(e) {
-    useEffect(() => {
 
     let eduinputs = education.educationin;  
 
@@ -83,11 +78,9 @@ function App () {
 
       setEducation({educationin: eduincopy})
     }
-  })
   }
   
   function HandleEduFieldChange(edufieldclasses, value) {
-    useEffect(() => {
     let educlasscopy = Array.from(edufieldclasses)
     let eduincopy = [...education.educationin]
     for (const eduentry of eduincopy) {
@@ -100,11 +93,9 @@ function App () {
         setEducation({
             educationin: eduincopy
         })
-      })
       }
 
       function OnSubmitEdu(e) {  
-          useEffect(() => {
           let eduinputscopy = [...education.educationin];
         setEducation({
             educationin: eduinputscopy,
@@ -113,13 +104,11 @@ function App () {
 
         let edustat = !edushow
         setEduShow(edustat)
-    })
       }
         
         
 
   function AddWork(e) {
-    useEffect(() => {
     let workinputs = work.workin;
 
     if (typeof workinputs == "object") {
@@ -139,10 +128,9 @@ function App () {
           workin: workincopy
       })
     }
-  })
   }
 
-  function handleWorkFieldChange(workfieldclasses, value) {
+  function HandleWorkFieldChange(workfieldclasses, value) {
     let workclasscopy = Array.from(workfieldclasses)
     let workincopy = [...work.workin]
     for (const workentry of workincopy) {
@@ -171,23 +159,17 @@ function App () {
     }
 
   function OnSubmitGen(e) {
-    useEffect(() => {
     e.preventDefault();
     const generalstorecopy = [];
-    let genincopy = {...this.state.general.generalin}
+    let genincopy = {...general.generalin}
     generalstorecopy.push(genincopy);
-    this.setState({
-      general: {
+    setGeneral({
       generalin: genincopy,
       generalstore: generalstorecopy
-      }
     })
 
-    let genstat = !this.state.generalshow
-      this.setState({
-        generalshow: genstat
-      })
-    })
+    let genstat = !generalshow
+      setGeneralShow(genstat)
   }
 
 
@@ -195,7 +177,7 @@ function App () {
     <div className='cvapp'>
       <div id='apptitle'>CV Application</div>
       <div className='formscontainer'>
-        <form id="genform" onSubmit={OnSubmitGen} className={this.state.generalshow ? 'active' : 'hidden'}>
+        <form id="genform" onSubmit={OnSubmitGen} className={generalshow ? 'active' : 'hidden'}>
           <div id="gentitle">General Information</div>
           <div id='genformfirst'>
           <label htmlFor='first'>First Name</label>
@@ -221,7 +203,7 @@ function App () {
           </div>
           <button id="genformbtn" type="submit" value="Submit">Submit</button>
         </form>
-        <div id="eduformcontainer" className={this.state.edushow ? 'active' : 'hidden'}>
+        <div id="eduformcontainer" className={edushow ? 'active' : 'hidden'}>
           <div id='eduformheader'>Education Information</div>
           <ul>
             {education.educationin.map((eduin) =>  {
@@ -238,14 +220,14 @@ function App () {
           <button id="eduadd" onClick={AddEducation}>Add Education</button>
           <button id="edusubmit" type="button" onClick={OnSubmitEdu}>Submit</button>
         </div>
-        <div id="workformcontainer" className={this.state.workshow ? 'active' : 'hidden'}>
+        <div id="workformcontainer" className={workshow ? 'active' : 'hidden'}>
           <div id='workformformheader'>Work Information</div>
           <ul>
             {work.workin.map((woin) => {
               return (
                 <li key={woin.id}>
                   <WorkForms
-                  onChange={handleWorkFieldChange}
+                  onChange={HandleWorkFieldChange}
                   value={woin}
                   />
                 </li>
